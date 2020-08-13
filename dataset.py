@@ -2,6 +2,8 @@ import torch
 import numpy as np
 from sklearn.datasets import make_s_curve
 from samples_generator_new import make_swiss_roll
+from torchvision import datasets as torchvisiondatasets
+from torchvision import transforms
 
 # shuffling the data to get an index of the individual batches
 class SampleIndexGenerater():
@@ -23,7 +25,7 @@ class SampleIndexGenerater():
         return use_index
      
         
-def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'), remove=None):
+def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'), remove=None, test=False):
 
     """
     function used to load data
@@ -49,6 +51,28 @@ def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=tor
     if data_name == 'SCurve':
         train_data, train_label = make_s_curve(n_samples=data_num, noise=noise, random_state=seed)
         train_data = train_data / 2
+
+    # Load Mnist Dataset
+    if data_name == '7mnist':
+
+        train_data = torchvisiondatasets.MNIST(
+            '~/data', train=True, download=True,
+            transform=transforms.ToTensor()
+        ).data.float().view(-1, 28*28)/255
+        train_label = torchvisiondatasets.MNIST(
+            '~/data', train=True, download=True,
+            transform=transforms.ToTensor()
+        ).targets
+        discard = [2,8,9]
+        mask = train_label >= 0
+        for num in discard:
+            mask = mask & (train_label != num)
+        if not test:
+            train_data = train_data[mask][:data_num]
+            train_label = train_label[mask][:data_num]
+        else:
+            train_data = train_data[mask][data_num:data_num*2]
+            train_label = train_label[mask][data_num:data_num*2]
 
     # Put the data to device
     train_data = torch.tensor(train_data).to(device)

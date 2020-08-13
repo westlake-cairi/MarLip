@@ -19,7 +19,7 @@ class MLDL_Loss(object):
     def Epsilonball(self, data):
 
         """
-        function used to calculate the distance between point pairs and determine the neighborhood
+        function used to calculate the distance between point pairs and determine the neighborhood with r-ball
 
         Arguments:
             data {tensor} -- the train data
@@ -43,6 +43,38 @@ class MLDL_Loss(object):
         kNN_mask = (d < Epcilon).bool()
 
         return d, kNN_mask
+
+    def kNNGraph(self, data):
+        
+        """
+        another function used to calculate the distance between point pairs and determine the neighborhood
+
+        Arguments:
+            data {tensor} -- the train data
+
+        Outputs:
+            d {tensor} -- the distance between point pairs
+            kNN_mask {tensor} a mask used to determine the neighborhood of every data point
+        """
+
+        k = self.args['MAEK']
+        batch_size = data.shape[0]
+
+        x = data.to(self.device)
+        y = data.to(self.device)
+        m, n = x.size(0), y.size(0)
+        xx = torch.pow(x, 2).sum(1, keepdim=True).expand(m, n)
+        yy = torch.pow(y, 2).sum(1, keepdim=True).expand(n, m).t()
+        dist = xx + yy
+        dist.addmm_(1, -2, x, y.t())
+        d = dist.clamp(min=1e-8).sqrt()  # for numerical stabili
+
+        s_, indices = torch.sort(d, dim=1)
+        indices = indices[:, :k+1]
+        kNN_mask = torch.zeros((batch_size, batch_size,), device=self.device).scatter(1, indices, 1)
+        kNN_mask[torch.eye(kNN_mask.shape[0], dtype=bool)] = 0
+
+        return d, kNN_mask.bool()
 
 
     # Using the reconstruction loss as Loss_ae
@@ -78,9 +110,9 @@ class MLDL_Loss(object):
 
         # Calculate Loss_push-away
         D2_1 = (dis_latent/norml_latent)[kNN_data == False]
-        Error2 = (0 - D2_1) / 1
+        Error2 = (0 - torch.log(1+D2_1)) / 1
         loss_push_away = torch.norm(Error2[Error2 > -1 * self.args['RegularB']]) / torch.sum(kNN_data == False)
-
+        
         # The gradual changing of weight for Loss_push-away 
         if self.epoch > self.args['GradualChanging'][0]:
             self.push_away = max(0.80 - (self.epoch - self.args['GradualChanging'][0]) / (self.args['GradualChanging'][1] - self.args['GradualChanging'][0]) * 0.80, 0)
@@ -124,9 +156,9 @@ class MLDL_Loss(object):
 
 
     def MorphicLossItem(self, data, latent):
-
-        dis_data, kNN_data  = self.Epsilonball(data)
-        dis_latent, kNN_latent = self.Epsilonball(latent)
+        
+        dis_data, kNN_data  = self.kNNGraph(data)
+        dis_latent, kNN_latent = self.kNNGraph(latent)
         loss_iso, loss_push_away = self.DistanceLoss(data, latent, dis_data, dis_latent, kNN_data, kNN_latent)
 
         if self.args['ratio'][2] < 0.01:
@@ -158,7 +190,6 @@ class MLDL_Loss(object):
         loss_distance, loss_ang, loss_mutex = self.MorphicLossItem(train_info[0], train_info[self.latent_index])      
 
         loss_list = [loss_ae, loss_distance, loss_ang, loss_mutex]
-
         # Weights for losses
         for i in range(len(loss_list)):
             loss_list[i] *= self.args['ratio'][i]
