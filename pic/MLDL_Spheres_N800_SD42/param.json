@@ -1,0 +1,631 @@
+{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}{
+  "FileName": null,
+  "ParamPath": "None",
+  "Mode": "ML-AE",
+  "DATASET": "Spheres",
+  "LEARNINGRATE": 0.001,
+  "BATCHSIZE": 5500,
+  "RegularB": 3,
+  "N_Dataset": 800,
+  "GradualChanging": [
+    200,
+    400
+  ],
+  "ratio": [
+    0.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "Epcilon": 2,
+  "EPOCHS": 2000,
+  "PlotForloop": 100,
+  "SEED": 42,
+  "NetworkStructure": [
+    101,
+    88,
+    78,
+    2
+  ],
+  "Noise": 0.0
+}

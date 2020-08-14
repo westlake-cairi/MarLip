@@ -9,7 +9,7 @@ import numpy as np
 # Some self-defined functions that need to be imported
 import dataset
 from model import MLDL_MLP
-from loss import MLDL_Loss
+from Loss import MLDL_Loss
 from utils import GetIndicator, GIFPloter, Interpolation
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -32,7 +32,7 @@ def train(model, loss, epoch, train_data, train_label, sample_index, batch_size)
         sample_index {class} -- an index generator used for training
         batch_size {int} -- batch size
     """
-
+    print(torch.__version__)
     model.train()
     loss.SetEpoch(epoch)
     sample_index.Reset()
@@ -58,14 +58,12 @@ def train(model, loss, epoch, train_data, train_label, sample_index, batch_size)
         for i, loss_item in enumerate(loss_list[1:]):
             loss_item.backward(retain_graph=True)
             train_loss_sum[i] += loss_item.item()
-
         optimizer_enc.step()
 
         optimizer_dec.zero_grad()
         for i, loss_item in enumerate(loss_list[0:1]):
             loss_item.backward(retain_graph=True)
             train_loss_sum[i] += loss_item.item()
-
         optimizer_dec.step()
 
         print('Train Epoch: {} [{}/{} ({:.0f}%)] \t Loss: {}'.format(
@@ -204,18 +202,18 @@ def SetParam():
     parser.add_argument("-N", "--FileName", default=None, type=str)   # File names where data and figs are stored
     parser.add_argument("-PP", "--ParamPath", default='None', type=str)   # Path for an existing parameter
     parser.add_argument("-M", "--Mode", default='ML-AE', type=str)
-    parser.add_argument("-D", "--DATASET", default='SwissRoll', type=str, choices=['SwissRoll', 'SCurve'])
+    parser.add_argument("-D", "--DATASET", default='Spheres', type=str, choices=['SwissRoll', 'SCurve', 'Spheres'])
     parser.add_argument("-LR", "--LEARNINGRATE", default=1e-3, type=float)
-    parser.add_argument("-B", "--BATCHSIZE", default=800, type=int)
+    parser.add_argument("-B", "--BATCHSIZE", default=5500, type=int)
     parser.add_argument("-RB", "--RegularB", default=3, type=int)   # Boundary parameters for push-away Loss
     parser.add_argument("-ND", "--N_Dataset", default=800, type=int)   # The data number used for training
-    parser.add_argument("-GC", "--GradualChanging", default=[500, 1000], type=int, nargs='+')   # Range for the gradual changing of push-away Loss
-    parser.add_argument("-R", "--ratio", default=[0.2, 1.0, 0.0, 1.0], type=float, nargs='+')   # The weight ratio for loss_ae/loss_iso/loss_angle/loss_push-away
-    parser.add_argument("-EPS", "--Epcilon", default=0.23, type=float)   # The boundary parameters used to determine the neighborhood
-    parser.add_argument("-E", "--EPOCHS", default=10000, type=int)
-    parser.add_argument("-P", "--PlotForloop", default=1000, type=int)   # Save data and plot every 1000 epochs
-    parser.add_argument("-SD", "--SEED", default=0, type=int)   # Seeds used to ensure reproducible results
-    parser.add_argument("-NS", "--NetworkStructure", default=[3, 100, 100, 100, 3, 2], type=int, nargs='+')
+    parser.add_argument("-GC", "--GradualChanging", default=[200, 400], type=int, nargs='+')   # Range for the gradual changing of push-away Loss
+    parser.add_argument("-R", "--ratio", default=[0.0, 1.0, 0.0, 0.0], type=float, nargs='+')   # The weight ratio for loss_ae/loss_iso/loss_angle/loss_push-away
+    parser.add_argument("-EPS", "--Epcilon", default=2, type=float)   # The boundary parameters used to determine the neighborhood
+    parser.add_argument("-E", "--EPOCHS", default=2000, type=int)
+    parser.add_argument("-P", "--PlotForloop", default=100, type=int)   # Save data and plot every 1000 epochs
+    parser.add_argument("-SD", "--SEED", default=42, type=int)   # Seeds used to ensure reproducible results
+    parser.add_argument("-NS", "--NetworkStructure", default=[101, 88, 78, 2], type=int, nargs='+')
     parser.add_argument("-Noise", "--Noise", default=0.0, type=float)   # Noise added to the generated data
     args = parser.parse_args()
 
