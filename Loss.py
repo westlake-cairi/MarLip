@@ -151,6 +151,10 @@ class MLDL_Loss(object):
 
         train_info[0] = train_info[0].view(train_info[0].shape[0], -1)
         loss_ae = self.ReconstructionLoss(train_info[0], train_info[-1])
+        loss_ae += self.ReconstructionLoss(train_info[2], train_info[-2])
+        loss_ae += self.ReconstructionLoss(train_info[4], train_info[-4])
+        loss_ae += self.ReconstructionLoss(train_info[6], train_info[-6])
+        loss_ae += self.ReconstructionLoss(train_info[8], train_info[-8])
         loss_distance, loss_ang, loss_mutex = self.MorphicLossItem(train_info[0], train_info[self.latent_index])      
 
         loss_list = [loss_ae, loss_distance, loss_ang, loss_mutex]
