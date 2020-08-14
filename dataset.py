@@ -63,6 +63,8 @@ def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=tor
             '~/data', train=True, download=True,
             transform=transforms.ToTensor()
         ).targets
+        
+        #Select 7 number in mnist
         discard = [2,8,9]
         mask = train_label >= 0
         for num in discard:

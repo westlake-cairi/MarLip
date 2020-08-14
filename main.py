@@ -207,7 +207,7 @@ def SetParam():
     parser.add_argument("-D", "--DATASET", default='7mnist', type=str, choices=['SwissRoll', 'SCurve', '7mnist'])
     parser.add_argument("-LR", "--LEARNINGRATE", default=1e-3, type=float)
     parser.add_argument("-B", "--BATCHSIZE", default=8000, type=int)
-    parser.add_argument("-RB", "--RegularB", default=2.2, type=int)   # Boundary parameters for push-away Loss
+    parser.add_argument("-RB", "--RegularB", default=2.2, type=float)   # Boundary parameters for push-away Loss
     parser.add_argument("-ND", "--N_Dataset", default=8000, type=int)   # The data number used for training
     parser.add_argument("-GC", "--GradualChanging", default=[10000, 10000], type=int, nargs='+')   # Range for the gradual changing of push-away Loss
     parser.add_argument("-R", "--ratio", default=[0, 1.0, 0.0, 110], type=float, nargs='+')   # The weight ratio for loss_ae/loss_iso/loss_angle/loss_push-away
