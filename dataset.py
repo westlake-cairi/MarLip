@@ -63,6 +63,8 @@ def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=tor
             '~/data', train=True, download=True,
             transform=transforms.ToTensor()
         ).targets
+        
+        #Select 7 number in mnist
         discard = [2,8,9]
         mask = train_label >= 0
         for num in discard:
@@ -73,9 +75,19 @@ def LoadData(data_name='SwissRoll', data_num=1500, seed=0, noise=0.0, device=tor
         else:
             train_data = train_data[mask][data_num:data_num*2]
             train_label = train_label[mask][data_num:data_num*2]
+    if data_name == '10mnist':
 
+        train_data = torchvisiondatasets.MNIST(
+            '~/data', train=True, download=True,
+            transform=transforms.ToTensor()
+        ).data.float().view(-1, 28*28)/255
+        train_label = torchvisiondatasets.MNIST(
+            '~/data', train=True, download=True,
+            transform=transforms.ToTensor()
+        ).targets
+        
     # Put the data to device
-    train_data = torch.tensor(train_data).to(device)
-    train_label = torch.tensor(train_label).to(device)
+    train_data = torch.tensor(train_data).to(device)[:data_num]
+    train_label = torch.tensor(train_label).to(device)[:data_num]
 
     return train_data, train_label

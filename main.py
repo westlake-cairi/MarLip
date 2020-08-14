@@ -5,12 +5,13 @@ import torch
 import argparse
 import datetime
 import numpy as np
-
+import random as rd
 # Some self-defined functions that need to be imported
 import dataset
 from model import MLDL_MLP
 from loss import MLDL_Loss
 from utils import GetIndicator, GIFPloter, Interpolation
+# from samplegenerater import SampleIndexGenerater
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -194,9 +195,11 @@ def SetSeed(seed):
         seed {int} -- seed number, will set to torch and numpy
     """
     
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    np.random.seed(seed)
+    SEED = seed
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed(SEED)
+    rd.seed(SEED)
+    np.random.seed(SEED)
 
 
 def SetParam():
@@ -204,18 +207,18 @@ def SetParam():
     parser.add_argument("-N", "--FileName", default=None, type=str)   # File names where data and figs are stored
     parser.add_argument("-PP", "--ParamPath", default='None', type=str)   # Path for an existing parameter
     parser.add_argument("-M", "--Mode", default='ML-AE', type=str)
-    parser.add_argument("-D", "--DATASET", default='7mnist', type=str, choices=['SwissRoll', 'SCurve', '7mnist'])
+    parser.add_argument("-D", "--DATASET", default='10mnist', type=str, choices=['SwissRoll', 'SCurve', '7mnist', '10mnist'])
     parser.add_argument("-LR", "--LEARNINGRATE", default=1e-3, type=float)
     parser.add_argument("-B", "--BATCHSIZE", default=8000, type=int)
-    parser.add_argument("-RB", "--RegularB", default=2.2, type=int)   # Boundary parameters for push-away Loss
+    parser.add_argument("-RB", "--RegularB", default=3, type=float)   # Boundary parameters for push-away Loss
     parser.add_argument("-ND", "--N_Dataset", default=8000, type=int)   # The data number used for training
     parser.add_argument("-GC", "--GradualChanging", default=[10000, 10000], type=int, nargs='+')   # Range for the gradual changing of push-away Loss
-    parser.add_argument("-R", "--ratio", default=[0, 1.0, 0.0, 110], type=float, nargs='+')   # The weight ratio for loss_ae/loss_iso/loss_angle/loss_push-away
+    parser.add_argument("-R", "--ratio", default=[0, 1.0, 0.0, 2], type=float, nargs='+')   # The weight ratio for loss_ae/loss_iso/loss_angle/loss_push-away
     parser.add_argument("-MK", "--MAEK", default=15, type=int)    # The boundary parameters used to determine the neighborhood
-    parser.add_argument("-E", "--EPOCHS", default=2000, type=int)
-    parser.add_argument("-P", "--PlotForloop", default=1000, type=int)   # Save data and plot every 1000 epochs
+    parser.add_argument("-E", "--EPOCHS", default=1000, type=int)
+    parser.add_argument("-P", "--PlotForloop", default=100, type=int)   # Save data and plot every 1000 epochs
     parser.add_argument("-SD", "--SEED", default=0, type=int)   # Seeds used to ensure reproducible results
-    parser.add_argument("-NS", "--NetworkStructure", default=[784, 1000, 500, 250, 100, 2], type=int, nargs='+')
+    parser.add_argument("-NS", "--NetworkStructure", default=[784, 1000, 500, 250, 100, 25], type=int, nargs='+')
     parser.add_argument("-Noise", "--Noise", default=0.0, type=float)   # Noise added to the generated data
     args = parser.parse_args()
 
@@ -250,7 +253,6 @@ if __name__ == '__main__':
 
     param, path = SetParam()
     SetSeed(param['SEED'])
-    Model, loss = SetModel(param)
 
     # Load training data
     train_data, train_label = dataset.LoadData(
@@ -262,6 +264,7 @@ if __name__ == '__main__':
     )
 
     # Init the model
+    Model, loss = SetModel(param)
     optimizer = torch.optim.Adam(Model.parameters(), lr=param['LEARNINGRATE'])
     param_enc = [str(i*2) for i in range(len(param['NetworkStructure']) - 1)]
     param_dec = [str(int(param_enc[-1]) + 1 + i*2) for i in range(len(param['NetworkStructure']) - 1)]
@@ -270,7 +273,11 @@ if __name__ == '__main__':
     optimizer_dec = torch.optim.Adam([{'params': [param for name, param in Model.named_parameters() if
                                         any([s in name for s in param_dec])]}], lr=param['LEARNINGRATE'])
 
-    sample_index = dataset.SampleIndexGenerater(train_data, param['BATCHSIZE'])
+    # sample_index = dataset.SampleIndexGenerater(train_data, param['BATCHSIZE'])
+
+    sample_index = dataset.SampleIndexGenerater(
+        train_data,
+        param['BATCHSIZE'],)
     gif_ploter = GIFPloter(param, Model)
 
     # Start training
@@ -286,14 +293,14 @@ if __name__ == '__main__':
     gif_ploter.SaveGIF(path=path)
 
     # Testing the generalizability of the model to out-of-samples
-    if param['Mode'] == 'Test':
-        test_data, test_label = dataset.LoadData(
-            data_name=param['DATASET'],
-            data_num=8000,
-            seed=param['SEED'],
-            noise=param['Noise'],  
-            remove='fivecircle',
-            test=True
-        )   
+    # if param['Mode'] == 'Test':
+    #     test_data, test_label = dataset.LoadData(
+    #         data_name=param['DATASET'],
+    #         data_num=8000,
+    #         seed=param['SEED'],
+    #         noise=param['Noise'],  
+    #         remove='fivecircle',
+    #         test=True
+    #     )   
 
-        PlotLatenSpace(Model, param['BATCHSIZE'], test_data, test_label, path=path, name='test', indicator=False, mode=param['Mode'])
+    #     PlotLatenSpace(Model, param['BATCHSIZE'], test_data, test_label, path=path, name='test', indicator=False, mode=param['Mode'])
