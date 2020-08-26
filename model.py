@@ -23,9 +23,10 @@ class MLDL_model(nn.Module):
             self.name_list.append('Layer {} ({})'.format(i+1, self.NetworkStructure[i+1]))
 
             if i != len(self.NetworkStructure)-2:
-                self.network.append(
-                    nn.LeakyReLU(0.1)
-                )
+                if 'Spheres' in self.args['DATASET']:
+                    self.network.append(nn.LeakyReLU())
+                else:
+                    self.network.append(nn.LeakyReLU(0.1))
                 self.name_list.append('Layer {} ({})'.format(i+1, self.NetworkStructure[i+1]))
 
             self.index_list.append(len(self.name_list)-1)
@@ -40,9 +41,10 @@ class MLDL_model(nn.Module):
             self.name_list.append('Layer {}\' ({})'.format(i-1, self.NetworkStructure[i-1]))
 
             if i > 1:
-                self.network.append(
-                    nn.LeakyReLU(0.1)
-                )
+                if 'Spheres' in self.args['DATASET']:
+                    self.network.append(nn.LeakyReLU())
+                else:
+                    self.network.append(nn.LeakyReLU(0.1))
                 self.name_list.append('Layer {}\' ({})'.format(i-1, self.NetworkStructure[i-1]))
 
             self.index_list.append(len(self.name_list)-1)

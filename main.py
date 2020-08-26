@@ -42,33 +42,46 @@ def Train(model, loss, epoch, train_data, train_label, index_generator, batch_si
     train_loss_sum = [0, 0, 0, 0]
     num_train_sample = train_data.shape[0]
     num_batch = (num_train_sample - 0.5) // batch_size + 1
-
     for batch_idx in torch.arange(num_batch):
-
         sample_index = index_generator.CalSampleIndex(batch_idx)
         data = train_data[sample_index].float()
         label = train_label[sample_index]
 
-        optimizer_enc.zero_grad()
+        if 'Spheres5500' in param['DATASET'] or 'Spheres10000' in param['DATASET']:
 
-        # Add data to device and forward
-        data = data.to(device)
-        label = label.to(device)
-        train_info = model(data)
-        loss_list = loss.CalLosses(train_info)
+            optimizer.zero_grad()
+            data = data.to(device)
+            label = label.to(device)
+            train_info = model(data)
+            loss_list = loss.CalLosses(train_info)
 
-        for i, loss_item in enumerate(loss_list[1:]):
-            loss_item.backward(retain_graph=True)
-            train_loss_sum[i+1] += loss_item.item()
+            for i, loss_item in enumerate(loss_list):
+                loss_item.backward(retain_graph=True)
+                train_loss_sum[i] += loss_item.item()
 
-        optimizer_enc.step()
+            optimizer.step()
 
-        optimizer_dec.zero_grad()
-        for i, loss_item in enumerate(loss_list[0:1]):
-            loss_item.backward(retain_graph=True)
-            train_loss_sum[i] += loss_item.item()
+        else:
+            optimizer_enc.zero_grad()
 
-        optimizer_dec.step()
+            # Add data to device and forward
+            data = data.to(device)
+            label = label.to(device)
+            train_info = model(data)
+            loss_list = loss.CalLosses(train_info)
+
+            for i, loss_item in enumerate(loss_list[1:]):
+                loss_item.backward(retain_graph=True)
+                train_loss_sum[i+1] += loss_item.item()
+
+            optimizer_enc.step()
+
+            optimizer_dec.zero_grad()
+            for i, loss_item in enumerate(loss_list[0:1]):
+                loss_item.backward(retain_graph=True)
+                train_loss_sum[i] += loss_item.item()
+
+            optimizer_dec.step()
 
         print('Train Epoch: {} [{}/{} ({:.0f}%)] \t Loss: {}'.format(
             epoch, 
@@ -226,7 +239,7 @@ def SetParam():
     parser.add_argument("-N", "--name", default=None, type=str)   # File names where data and figs are stored
     parser.add_argument("-PP", "--ParamPath", default='None', type=str)   # Path for an existing parameter
     parser.add_argument("-M", "--Mode", default='ML-AE', type=str)
-    parser.add_argument("-D", "--DATASET", default='SwissRoll', type=str, choices=['SwissRoll', 'SCurve', 'MNIST', 'Spheres5500'])
+    parser.add_argument("-D", "--DATASET", default='SwissRoll', type=str, choices=['SwissRoll', 'SCurve', 'MNIST', 'Spheres10000', 'Spheres5500'])
     parser.add_argument("-LR", "--LEARNINGRATE", default=1e-3, type=float)
     parser.add_argument("-B", "--BATCHSIZE", default=800, type=int)
     parser.add_argument("-RB", "--RegularB", default=3, type=float)   # Boundary parameters for push-away Loss
@@ -250,6 +263,8 @@ def SetParam():
         args.ParamPath = './param/mnist_2.json'
     if args.DATASET == 'Spheres5500':
         args.ParamPath = './param/spheres5500.json'
+    if args.DATASET == 'Spheres10000':
+        args.ParamPath = './param/spheres10000.json'
     if args.ParamPath is not 'None':
         jsontxt = open(args.ParamPath, 'r').read()
         param = json.loads(jsontxt)
@@ -332,18 +347,19 @@ if __name__ == '__main__':
             test_label = train_label[-5500:]
             train_data = train_data[:-5500]
             train_label = train_label[:-5500]
-            param['BATCHSIZE'] = train_data.shape[0]
+        if param['DATASET'] == 'Spheres10000':
+            test_data = train_data[9000:]
+            test_label = train_label[9000:]
+            train_data = train_data[:7500]
+            train_label = train_label[:7500]
+
             
         # Init the model
         Model, loss = SetModel(param)
         optimizer = torch.optim.Adam(Model.parameters(), lr=param['LEARNINGRATE'])
         param_enc = [str(i*2) for i in range(len(param['NetworkStructure']) - 1)]
         param_dec = [str(int(param_enc[-1]) + 1 + i*2) for i in range(len(param['NetworkStructure']) - 1)]
-        if param['DATASET'] == 'Spheres5500':
-            optimizer_enc = torch.optim.Adam([{'params': [param for name, param in Model.named_parameters() if
-                                                any([s in name for s in param_enc])]}], lr=param['LEARNINGRATE'], weight_decay=1e-8)
-        else:
-            optimizer_enc = torch.optim.Adam([{'params': [param for name, param in Model.named_parameters() if
+        optimizer_enc = torch.optim.Adam([{'params': [param for name, param in Model.named_parameters() if
                                                 any([s in name for s in param_enc])]}], lr=param['LEARNINGRATE'])
         optimizer_dec = torch.optim.Adam([{'params': [param for name, param in Model.named_parameters() if
                                             any([s in name for s in param_dec])]}], lr=param['LEARNINGRATE'])
@@ -358,10 +374,11 @@ if __name__ == '__main__':
             if epoch % param['PlotForloop'] == 0:
                 name = 'Epoch_' + str(epoch).zfill(5)
                 InlinePlot(Model, param['BATCHSIZE'], train_data, train_label, path, name, indicator=False)
-                if param['DATASET'] == 'Spheres5500':
+                if param['DATASET'] == 'Spheres5500' or param['DATASET'] == 'Spheres10000':
                     InlinePlot(Model, param['BATCHSIZE'], test_data, test_label, path, 'Test_' + name, indicator=False)
 
         # Plotting the final results and evaluating the metrics
+        # InlinePlot(Model, param['BATCHSIZE'], test_data, test_label, path, name='Test', indicator=True, mode=param['Mode'])
         InlinePlot(Model, param['BATCHSIZE'], train_data, train_label, path, name='Train', indicator=True, mode=param['Mode'])
         if param['DATASET'] != 'MNIST' or param['Visualization'] == True:
             gif_ploter.SaveGIF(path=path)

@@ -2,11 +2,11 @@
   "name": null,
   "ParamPath": "None",
   "Mode": "ML-AE",
-  "DATASET": "Spheres5500",
+  "DATASET": "Spheres10000",
   "LEARNINGRATE": 1e-3,
   "BATCHSIZE": 64,
   "RegularB": 3,
-  "N_Dataset": 11000,
+  "N_Dataset": 10000,
   "GradualChanging": [
     200,
     400

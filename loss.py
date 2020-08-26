@@ -71,7 +71,7 @@ class MLDL_Loss(object):
         s_, indices = torch.sort(d, dim=1)
         indices = indices[:, :k+1]
         kNN_mask = torch.zeros((batch_size, batch_size,), device=self.device).scatter(1, indices, 1)
-        kNN_mask[torch.eye(kNN_mask.shape[0], dtype=bool)] = 0
+        kNN_mask[torch.eye(kNN_mask.shape[0], dtype=int)] = 0
 
         return d, kNN_mask.bool()
 
@@ -98,8 +98,13 @@ class MLDL_Loss(object):
             kNN_latent {tensor} -- the mask to determine the neighborhood for latent layer data
         """
 
-        norml_data = torch.sqrt(torch.tensor(float(data.shape[1])))
-        norml_latent = torch.sqrt(torch.tensor(float(latent.shape[1])))
+        if 'Spheres5500' in self.args['DATASET'] or 'Spheres10000' in self.args['DATASET']:
+            kNN_data = kNN_latent + kNN_data
+            norml_data = 1
+            norml_latent = 1
+        else:
+            norml_data = torch.sqrt(torch.tensor(float(data.shape[1])))
+            norml_latent = torch.sqrt(torch.tensor(float(latent.shape[1])))
 
         # Calculate Loss_iso
         D1_1 = (dis_data/norml_data)[kNN_data]
@@ -108,6 +113,7 @@ class MLDL_Loss(object):
         loss_iso = torch.norm(Error1)/torch.sum(kNN_data)
 
         # Calculate Loss_push-away
+
         D2_1 = (dis_latent/norml_latent)[kNN_data == False]
         if 'MNIST' in self.args['DATASET']:
             Error2 = (0 - torch.log(1+D2_1)) / 1
@@ -158,8 +164,8 @@ class MLDL_Loss(object):
 
 
     def MorphicLossItem(self, data, latent):
-
-        if 'MNIST' in self.args['DATASET']:
+        
+        if 'MNIST' in self.args['DATASET'] or 'Spheres' in self.args['DATASET']:
             dis_data, kNN_data  = self.KNNGraph(data)
             dis_latent, kNN_latent = self.KNNGraph(latent)
         else:
@@ -189,7 +195,7 @@ class MLDL_Loss(object):
 
         train_info[0] = train_info[0].view(train_info[0].shape[0], -1)
         loss_ae = self.ReconstructionLoss(train_info[0], train_info[-1])
-        if self.args['DATASET'] != 'Spheres5500':
+        if self.args['DATASET'] != 'Spheres5500' and self.args['DATASET'] != 'Spheres10000':
             loss_ae += self.ReconstructionLoss(train_info[2], train_info[-2])
             loss_ae += self.ReconstructionLoss(train_info[4], train_info[-4])
             loss_ae += self.ReconstructionLoss(train_info[6], train_info[-6])
